@@ -7,6 +7,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import javax.swing.JPasswordField;
+import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
 
@@ -19,15 +20,328 @@ import util.MyTableModel;
 
 public class JTableJDBCView {
 	private JFrame frame;
-	private JPanel mainPanel;
+	private JPanel panelMain; //Grid layout.
 	
-	private JPanel panelConnection;
+	private JPanel panelTop; //Gridbag layout.
+	
+	private JPanel panelConnection; //Grid layout, gbc - horizontal
+	private JLabel labelUrl;
 	private JTextField textUrl;
+	private JLabel labelSchema;
 	private JTextField textSchema;
+	private JLabel labelUserName;
 	private JTextField textUserName;
+	private JLabel labelPassWord;
 	private JPasswordField textPassWord;
 	private JButton buttonApplyConnection;
 	
+	private JPanel panelSql; //Border layout, gbc - both
+	private JLabel labelSql;
+	private JButton buttonRunSql;
+	
+	private JScrollPane scrollPane;
+	private JTable table;
+	
 	public JTableJDBCView() {
+		
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
