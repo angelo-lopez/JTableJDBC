@@ -45,6 +45,10 @@ public class JTableJDBCView {
 	public JTableJDBCView() {
 		
 	}
+	
+	public void setUp() {
+		
+	}
 }
 
 
