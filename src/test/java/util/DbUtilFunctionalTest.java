@@ -28,7 +28,7 @@ public class DbUtilFunctionalTest {
 	public void setUp() throws SQLException, FileNotFoundException, IOException {
 		if(dbUtil == null) {
 			properties = new Properties();
-			InputStream inputStream = new FileInputStream(new File("./config/dbconfig.properties"));
+			InputStream inputStream = new FileInputStream(new File("./config/testconnection.properties"));
 			properties.load(inputStream);
 			dbUtil = new DbUtil(properties.getProperty("mysqllocal.url"), properties.getProperty("mysqllocal.schema"),
 					properties.getProperty("mysqllocal.username"), properties.getProperty("mysqllocal.password"));

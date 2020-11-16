@@ -50,5 +50,4 @@ public class MyTableModel extends DefaultTableModel {
 		
 		return i;
 	}
-	
 }

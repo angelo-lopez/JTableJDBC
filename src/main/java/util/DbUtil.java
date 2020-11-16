@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 public class DbUtil {
-	
 	private Connection connection;
 	private String url;
 	private String schema;
@@ -97,7 +96,6 @@ public class DbUtil {
 		
 		return statement.executeQuery(sql);
 	}
-
 }
 
 
