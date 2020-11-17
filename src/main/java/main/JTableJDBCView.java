@@ -15,19 +15,19 @@ import javax.swing.ListSelectionModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import java.awt.FlowLayout;
-
-import util.MyTableModel;
 
 public class JTableJDBCView {
 	private JFrame frame;
-	private JPanel panelMain; //Grid layout.
+	private JPanel panelMain; 
 	
-	private JPanel panelTop; //Gridbag layout.
+	private JPanel panelTop; 
 	
-	private JPanel panelConnection; //Grid layout, gbc - horizontal
+	private JPanel panelConnectionTop;
+	private JPanel panelConnectionLeftCentre; 
+	private JPanel panelConnectionLabel;
+	private JPanel panelConnectionText;
+	private JLabel labelConnectionTitle;
 	private JLabel labelUrl;
 	private JTextField textUrl;
 	private JLabel labelSchema;
@@ -38,14 +38,17 @@ public class JTableJDBCView {
 	private JPasswordField pwdPassWord;
 	private JButton buttonApplyConnection;
 	
-	private JPanel panelSql; //Border layout, gbc - both
+	private JPanel panelSql; 
+	private JPanel panelButtonSql;
 	private JLabel labelSql;
 	private JScrollPane scrollPaneSql;
 	private JTextArea textSql;
 	private JButton buttonRunSql;
 	
 	private JPanel panelTable;
+	private JPanel panelButtonTable;
 	private JScrollPane scrollPaneTable;
+	private JLabel labelResult;
 	private JTable table;
 	private JButton buttonClearTable;
 	
@@ -136,49 +139,61 @@ public class JTableJDBCView {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		
-		panelConnection = new JPanel(new GridLayout(5, 2));
+		panelConnectionTop = new JPanel(new BorderLayout());
+		panelConnectionTop.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panelConnectionLeftCentre = new JPanel(new BorderLayout());
+		panelConnectionLabel = new JPanel(new GridLayout(6, 1));
+		panelConnectionText = new JPanel(new GridLayout(6, 1));
+		
+		labelConnectionTitle = new JLabel("Connection Properties");
+		panelConnectionLabel.add(labelConnectionTitle);
 		labelUrl = new JLabel("URL");
+		panelConnectionLabel.add(labelUrl);
 		labelSchema = new JLabel("Schema");
+		panelConnectionLabel.add(labelSchema);
 		labelUserName = new JLabel("Username");
+		panelConnectionLabel.add(labelUserName);
 		labelPassWord = new JLabel("Password");
-		textUrl = new JTextField();
-		textSchema = new JTextField();
-		textUserName = new JTextField();
-		pwdPassWord = new JPasswordField();
-		pwdPassWord.setEchoChar('*');
+		panelConnectionLabel.add(labelPassWord);
 		buttonApplyConnection = new JButton("Apply");
-		panelConnection.add(labelUrl);
-		panelConnection.add(textUrl);
-		panelConnection.add(labelSchema);
-		panelConnection.add(textSchema);
-		panelConnection.add(labelUserName);
-		panelConnection.add(textUserName);
-		panelConnection.add(labelPassWord);
-		panelConnection.add(pwdPassWord);
-		panelConnection.add(buttonApplyConnection);
+		panelConnectionLabel.add(buttonApplyConnection);
+		
+		panelConnectionText.add(new JLabel(""));
+		textUrl = new JTextField();
+		panelConnectionText.add(textUrl);
+		textSchema = new JTextField();
+		panelConnectionText.add(textSchema);
+		textUserName = new JTextField();
+		panelConnectionText.add(textUserName);
+		pwdPassWord = new JPasswordField();
+		panelConnectionText.add(pwdPassWord);
+		pwdPassWord.setEchoChar('*');
+		
+		panelConnectionLeftCentre.add(panelConnectionLabel, BorderLayout.LINE_START);
+		panelConnectionLeftCentre.add(panelConnectionText, BorderLayout.CENTER);
+		panelConnectionTop.add(panelConnectionLeftCentre, BorderLayout.PAGE_START);
+		
 		
 		panelSql = new JPanel(new BorderLayout(10, 10));
+		panelSql.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panelButtonSql = new JPanel(new FlowLayout());
 		labelSql = new JLabel("SQL Statement");
 		textSql = new JTextArea();
 		scrollPaneSql = new JScrollPane(textSql);
 		buttonRunSql = new JButton("Run SQL");
+		panelButtonSql.add(buttonRunSql);
 		panelSql.add(labelSql, BorderLayout.PAGE_START);
 		panelSql.add(scrollPaneSql, BorderLayout.CENTER);
-		panelSql.add(buttonRunSql, BorderLayout.PAGE_END);
+		panelSql.add(panelButtonSql, BorderLayout.PAGE_END);
 		
-		panelTop = new JPanel(new GridBagLayout());
-		GridBagConstraints gridBagConstraints = new GridBagConstraints();
-		gridBagConstraints.fill = GridBagConstraints.BOTH;
-		gridBagConstraints.gridx = 2;
-		gridBagConstraints.gridy = 0;
-		panelTop.add(panelSql, gridBagConstraints);
-		
-		gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-		gridBagConstraints.gridx = 3;
-		gridBagConstraints.gridy = 0;
-		panelTop.add(panelConnection, gridBagConstraints);
+		panelTop = new JPanel(new GridLayout(0, 2));
+		panelTop.add(panelSql);
+		panelTop.add(panelConnectionTop);
 		
 		panelTable = new JPanel(new BorderLayout(10,10));
+		panelTable.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		panelButtonTable = new JPanel(new FlowLayout());
+		labelResult = new JLabel("Query Result");
 		table = new JTable(new Object[][] {{""}}, new Object[] {"Empty"});
 		table.setGridColor(Color.LIGHT_GRAY);
 		table.setFillsViewportHeight(true);
@@ -186,9 +201,11 @@ public class JTableJDBCView {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setDefaultEditor(Object.class, null);
 		scrollPaneTable = new JScrollPane(table);
-		buttonClearTable = new JButton("Clear Results");
+		buttonClearTable = new JButton("Clear Result");
+		panelButtonTable.add(buttonClearTable);
+		panelTable.add(labelResult, BorderLayout.PAGE_START);
 		panelTable.add(scrollPaneTable, BorderLayout.CENTER);
-		panelTable.add(buttonClearTable, BorderLayout.PAGE_END);
+		panelTable.add(panelButtonTable, BorderLayout.PAGE_END);
 		
 		panelMain = new JPanel(new GridLayout(2, 0));
 		panelMain.add(panelTop);
