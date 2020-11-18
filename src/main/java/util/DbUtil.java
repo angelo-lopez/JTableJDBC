@@ -68,19 +68,19 @@ public class DbUtil {
 		this.passWord = passWord;
 	}
 	
-	public void connect() throws SQLException, Exception {
+	public void connect() throws SQLException {
 		connection = DriverManager.getConnection(url + "/" + schema, userName, passWord);
 	}
 	
-	public void connect(String url, String schema, String userName, String passWord) throws SQLException, Exception {
+	public void connect(String url, String schema, String userName, String passWord) throws SQLException {
 		connection = DriverManager.getConnection(url + "/" + schema, userName, passWord);
 	}
 	
-	public void close() throws SQLException, Exception {
+	public void close() throws SQLException {
 		connection.close();
 	}
 	
-	public String[] getColumnNames(ResultSet resultSet) throws SQLException, Exception {
+	public String[] getColumnNames(ResultSet resultSet) throws SQLException {
 		ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 		String[] columnNames = new String[resultSetMetaData.getColumnCount()];
 		
@@ -91,7 +91,7 @@ public class DbUtil {
 		return columnNames;
 	}
 	
-	public ResultSet getResultSet(String sql) throws SQLException, Exception {
+	public ResultSet getResultSet(String sql) throws SQLException {
 		Statement statement = connection.createStatement();
 		
 		return statement.executeQuery(sql);
