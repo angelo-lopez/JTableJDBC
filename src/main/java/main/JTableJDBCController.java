@@ -50,12 +50,15 @@ public class JTableJDBCController {
 		}
 		catch(FileNotFoundException ex) {
 			displayExceptionMessage(ex.getMessage());
+			ex.printStackTrace();
 		}
 		catch(IOException ex) {
 			displayExceptionMessage(ex.getMessage());
+			ex.printStackTrace();
 		}
 		catch(Exception ex) {
 			displayExceptionMessage(ex.getMessage());
+			ex.printStackTrace();
 		}
 	}
 	
@@ -114,15 +117,19 @@ public class JTableJDBCController {
 				}
 				catch(SQLException ex) {
 					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
 				}
 				catch(FileNotFoundException ex) {
-					
+					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
 				}
 				catch(IOException ex) {
-					
+					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
 				}
 				catch(Exception ex) {
 					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		});
@@ -162,6 +169,7 @@ public class JTableJDBCController {
 				}
 				catch(Exception ex) {
 					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
 				}
 			}
 		});
