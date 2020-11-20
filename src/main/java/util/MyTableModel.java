@@ -19,18 +19,32 @@ public class MyTableModel extends DefaultTableModel {
 		Object[] tableColumns = new Object[columnCount];
 		Object[][] tableData = new Object[rowCount][columnCount];
 		
-		for(int i = 1; i <= columnCount; i ++) {
-			tableColumns[i - 1] = resultSet.getMetaData().getColumnName(i); 
+		if(columnCount > 0) {
+			for(int i = 1; i <= columnCount; i ++) {
+				tableColumns[i - 1] = resultSet.getMetaData().getColumnName(i); 
+			}
+		}
+		else {
+			tableColumns[0] = "None";
 		}
 		
-		while(resultSet.next()) {
+		if(rowCount > 0) {
 			int i = 0;
 			
-			for(int j = 0; j < columnCount; j ++) {
-				tableData[i][j] = resultSet.getString(j + 1);
+			if(!resultSet.isBeforeFirst()) {
+				resultSet.beforeFirst();
 			}
 			
-			i ++;
+			while(resultSet.next()) {
+				for(int j = 0; j < columnCount; j ++) {
+					tableData[i][j] = resultSet.getString(j + 1);
+				}
+				
+				i ++;
+			}
+		}
+		else {
+			tableData[0][0] = "Empty";
 		}
 		
 		setDataVector(tableData, tableColumns);

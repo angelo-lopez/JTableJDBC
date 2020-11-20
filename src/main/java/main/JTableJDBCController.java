@@ -5,12 +5,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 
+import java.util.Properties;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
 import util.DbUtil;
 import util.MyTableModel;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class JTableJDBCController {
@@ -29,6 +38,25 @@ public class JTableJDBCController {
 		dbUtil = null;
 		initListeners();
 		view.showGui();
+		
+		try {
+			InputStream inputStream = new FileInputStream(new File("./config/mainconnection.properties"));
+			Properties properties = new Properties();
+			properties.load(inputStream);
+			
+			view.getTextUrl().setText(properties.getProperty("url"));
+			view.getTextSchema().setText(properties.getProperty("schema"));
+			view.getTextUserName().setText(properties.getProperty("username"));
+		}
+		catch(FileNotFoundException ex) {
+			displayExceptionMessage(ex.getMessage());
+		}
+		catch(IOException ex) {
+			displayExceptionMessage(ex.getMessage());
+		}
+		catch(Exception ex) {
+			displayExceptionMessage(ex.getMessage());
+		}
 	}
 	
 	public void initListeners() {
@@ -73,11 +101,25 @@ public class JTableJDBCController {
 							view.getTextUserName().getText().trim(), 
 							String.valueOf(view.getPwdPassWord().getPassword()));
 					dbUtil.connect();
+					
+					OutputStream outputStream = new FileOutputStream(new File("./config/mainconnection.properties"));
+					Properties properties = new Properties();
+					properties.setProperty("url", view.getTextUrl().getText());
+					properties.setProperty("schema", view.getTextSchema().getText());
+					properties.setProperty("username", view.getTextUserName().getText());
+					properties.store(outputStream, null);
+					
 					JOptionPane.showMessageDialog(null, "Connected to " + dbUtil.getUrl() + "/" + dbUtil.getSchema(), 
 							"Connection Successful", JOptionPane.INFORMATION_MESSAGE );
 				}
 				catch(SQLException ex) {
 					displayExceptionMessage(ex.getMessage());
+				}
+				catch(FileNotFoundException ex) {
+					
+				}
+				catch(IOException ex) {
+					
 				}
 				catch(Exception ex) {
 					displayExceptionMessage(ex.getMessage());
@@ -88,14 +130,39 @@ public class JTableJDBCController {
 		view.getButtonRunSql().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				
+				try {
+					MyTableModel myTableModel = new MyTableModel(dbUtil.getResultSet(view.getTextSql().getText()));
+					view.getTable().setModel(myTableModel);
+				}
+				catch(SQLException ex) {
+					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
+				}
+				catch(NullPointerException ex) {
+					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
+				}
+				catch(ArrayIndexOutOfBoundsException ex) {
+					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
+				}
+				catch(Exception ex) {
+					displayExceptionMessage(ex.getMessage());
+					ex.printStackTrace();
+				}
 			}
 		});
 		
 		view.getButtonClearTable().addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent ae) {
-				
+				try {
+				MyTableModel myTableModel = new MyTableModel(new Object[][] {{""}}, new Object[] {"Empty"});
+				view.getTable().setModel(myTableModel);
+				}
+				catch(Exception ex) {
+					displayExceptionMessage(ex.getMessage());
+				}
 			}
 		});
 	}
@@ -103,6 +170,7 @@ public class JTableJDBCController {
 	public void displayExceptionMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Exception Encountered", JOptionPane.ERROR_MESSAGE);
 	}
+	
 }
 
 

@@ -195,6 +195,7 @@ public class JTableJDBCView {
 		panelButtonTable = new JPanel(new FlowLayout());
 		labelResult = new JLabel("Query Result");
 		table = new JTable(new Object[][] {{""}}, new Object[] {"Empty"});
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setGridColor(Color.LIGHT_GRAY);
 		table.setFillsViewportHeight(true);
 		table.setCellSelectionEnabled(true);
