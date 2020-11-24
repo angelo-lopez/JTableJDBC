@@ -12,8 +12,14 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.InvalidPathException;
 
 import javax.swing.JOptionPane;
 
@@ -49,7 +55,9 @@ public class JTableJDBCController {
 			view.getTextUserName().setText(properties.getProperty("username"));
 		}
 		catch(FileNotFoundException ex) {
-			displayExceptionMessage(ex.getMessage());
+			displayExceptionMessage(ex.getMessage() + "\nThe file with the connection properties does not exist. " + 
+					"This file will be created for you.");
+			createConnectionPropertiesFile("./config", "mainconnection.properties");
 			ex.printStackTrace();
 		}
 		catch(IOException ex) {
@@ -177,6 +185,36 @@ public class JTableJDBCController {
 	
 	public void displayExceptionMessage(String message) {
 		JOptionPane.showMessageDialog(null, message, "Exception Encountered", JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void createConnectionPropertiesFile(String path, String fileName) {
+		FileWriter fileWriter = null;
+		BufferedWriter bufferedWriter = null;
+		
+		try {
+			Files.createDirectory(Paths.get(path));
+			
+			fileWriter = new FileWriter(path + "/" + fileName);
+			bufferedWriter = new BufferedWriter(fileWriter);
+			
+			bufferedWriter.write("url=");
+			bufferedWriter.newLine();
+			bufferedWriter.write("schema=");
+			bufferedWriter.newLine();
+			bufferedWriter.write("username");
+			
+			bufferedWriter.close();
+			fileWriter.close();
+		}
+		catch(IOException ex) {
+			displayExceptionMessage(ex.getMessage());
+		}
+		catch(InvalidPathException ex) {
+			displayExceptionMessage(ex.getMessage());
+		}
+		catch(Exception ex) {
+			displayExceptionMessage(ex.getMessage());
+		}
 	}
 	
 }
