@@ -11,11 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
 import javax.swing.ListSelectionModel;
+import javax.swing.SortingFocusTraversalPolicy;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.Vector;
 import java.awt.FlowLayout;
+import java.awt.FocusTraversalPolicy;
 
 public class JTableJDBCView {
 	private JFrame frame;
@@ -213,11 +217,26 @@ public class JTableJDBCView {
 		panelMain.add(panelTable);
 		
 		frame.getContentPane().add(panelMain, BorderLayout.CENTER);
+		
+		Vector<Component> vector = new Vector<Component>(9);
+		vector.add(textUrl);
+		vector.add(textSchema);
+		vector.add(textUserName);
+		vector.add(pwdPassWord);
+		vector.add(buttonApplyConnection);
+		vector.add(textSql);
+		vector.add(buttonRunSql);
+		vector.add(table);
+		vector.add(buttonClearTable);	
+		
+		JTableJDBCViewTraversalPolicy traversalPolicy = new JTableJDBCViewTraversalPolicy(vector);
+		frame.setFocusTraversalPolicy(traversalPolicy);
 	}
 	
 	public void showGui() {
 		frame.setVisible(true);
 	}
+	
 }
 
 

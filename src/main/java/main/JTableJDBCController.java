@@ -36,7 +36,7 @@ public class JTableJDBCController {
 		view = new JTableJDBCView("JTable - JDBC");
 	}
 	
-	public JTableJDBCController(String title) {
+	public JTableJDBCController(String title) {	
 		view = new JTableJDBCView(title);
 	}
 	
@@ -44,6 +44,7 @@ public class JTableJDBCController {
 		dbUtil = null;
 		initListeners();
 		view.showGui();
+		view.getTextUrl().requestFocusInWindow();
 		
 		try {
 			InputStream inputStream = new FileInputStream(new File("./config/mainconnection.properties"));
